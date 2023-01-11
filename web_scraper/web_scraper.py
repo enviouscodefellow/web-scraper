@@ -16,21 +16,25 @@ def get_citations_needed_report(url):
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
 
-    report = ''
+    parents = ''
+    report = []
+
     for element in soup.find_all(text='citation needed'):
-        passage = element.find_parents("a", limit=2)
-        report += f'Citation needed for "{passage}"\n'
+        passage = element.findParent('p').text.strip()
+        parents = f'Citation needed for "{passage}"'
+        report.append(parents)
+        return report
 
-    return report
+if __name__ == '__main__':
 
-print(get_citations_needed_count('https://en.wikipedia.org/wiki/Virtual_Boy'))
+    print(get_citations_needed_count('https://en.wikipedia.org/wiki/Virtual_Boy'))
 
-print(get_citations_needed_report('https://en.wikipedia.org/wiki/Virtual_Boy'))
+    print(get_citations_needed_report('https://en.wikipedia.org/wiki/Virtual_Boy'))
 
-print(get_citations_needed_count('https://en.wikipedia.org/wiki/Nintendo_64'))
+    print(get_citations_needed_count('https://en.wikipedia.org/wiki/Nintendo_64'))
 
-print(get_citations_needed_report('https://en.wikipedia.org/wiki/Nintendo_64'))
+    print(get_citations_needed_report('https://en.wikipedia.org/wiki/Nintendo_64'))
 
-print(get_citations_needed_count('https://en.wikipedia.org/wiki/Quaternary_extinction_event'))
+    print(get_citations_needed_count('https://en.wikipedia.org/wiki/Quaternary_extinction_event'))
 
-print(get_citations_needed_report('https://en.wikipedia.org/wiki/Quaternary_extinction_event'))
+    print(get_citations_needed_report('https://en.wikipedia.org/wiki/Quaternary_extinction_event'))
